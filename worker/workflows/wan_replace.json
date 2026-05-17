@@ -1,0 +1,66 @@
+{
+  "1": {
+    "class_type": "VHS_LoadVideo",
+    "_meta": { "title": "Load User Video" },
+    "inputs": {
+      "video": "/tmp/input_video.mp4",
+      "force_rate": 0,
+      "force_size": "Disabled",
+      "custom_width": 0,
+      "custom_height": 0,
+      "frame_load_cap": 0,
+      "skip_first_frames": 0,
+      "select_every_nth": 1,
+      "choose video to upload": "video"
+    }
+  },
+  "2": {
+    "class_type": "LoadImage",
+    "_meta": { "title": "Load Character Image" },
+    "inputs": {
+      "image": "/tmp/character.png",
+      "upload": "image"
+    }
+  },
+  "3": {
+    "class_type": "WanVideoWrapperModelLoader",
+    "_meta": { "title": "Load Wan2.2-Animate Model" },
+    "inputs": {
+      "model": "Wan2.2-Animate-14B",
+      "precision": "bf16",
+      "load_device": "cuda"
+    }
+  },
+  "4": {
+    "class_type": "WanVideoAnimateSampler",
+    "_meta": { "title": "Wan2.2 Animate Sampler (Replace)" },
+    "inputs": {
+      "model": ["3", 0],
+      "ref_image": ["2", 0],
+      "driving_video": ["1", 0],
+      "mode": "replace",
+      "num_inference_steps": 20,
+      "guidance_scale": 1.0,
+      "shift": 8.0,
+      "seed": -1,
+      "resolution": "480p"
+    }
+  },
+  "5": {
+    "class_type": "VHS_VideoCombine",
+    "_meta": { "title": "Save Output Video" },
+    "inputs": {
+      "images": ["4", 0],
+      "frame_rate": 24,
+      "loop_count": 0,
+      "filename_prefix": "wan_output",
+      "format": "video/h264-mp4",
+      "pix_fmt": "yuv420p",
+      "crf": 19,
+      "save_metadata": false,
+      "pingpong": false,
+      "save_output": true,
+      "audio": null
+    }
+  }
+}

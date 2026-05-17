@@ -1,0 +1,48 @@
+{
+  "name": "motion-avatar-templates",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "preflight:vast": "bash scripts/preflight-vast.sh",
+    "test:models": "bash scripts/test-models.sh",
+    "test:worker-local": "bash scripts/test-worker-local.sh",
+    "test:worker-gpu": "bash scripts/test-worker-gpu.sh",
+    "vast:setup": "bash scripts/vast-setup.sh",
+    "vast:test-gpu": "bash scripts/vast-test-gpu.sh",
+    "vast:stop": "bash scripts/vast-stop.sh"
+  },
+  "dependencies": {
+    "@fal-ai/client": "^1.10.1",
+    "@stripe/stripe-js": "^5.2.0",
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^11.15.0",
+    "lucide-react": "^0.468.0",
+    "next": "15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-dropzone": "^14.3.5",
+    "react-hot-toast": "^2.4.1",
+    "stripe": "^17.4.0",
+    "tailwind-merge": "^2.5.5",
+    "uuid": "^11.0.3",
+    "zustand": "^5.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@types/uuid": "^10",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^8",
+    "eslint-config-next": "15.1.0",
+    "postcss": "^8",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5"
+  }
+}

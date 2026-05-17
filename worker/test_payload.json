@@ -1,0 +1,10 @@
+{
+  "id": "local-test-001",
+  "input": {
+    "user_video_url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+    "character_image_url": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=512&h=512&fit=crop&crop=face",
+    "quality": "fast",
+    "mode": "replacement",
+    "keep_original_audio": true
+  }
+}
