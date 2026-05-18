@@ -19,3 +19,8 @@ models/
 workspace/
 tmp/
 tsconfig.tsbuildinfo
+.env.local
+.env.local
+.env.localg
+.env*
+.env*

@@ -56,14 +56,13 @@ function getCredentials() {
   const sshHost    = process.env.VAST_SSH_HOST
   const sshPort    = process.env.VAST_SSH_PORT
   const sshUser    = process.env.VAST_SSH_USER    ?? 'root'
-  const workDir    = process.env.VAST_WORKDIR     ?? '/workspace/motion-avatar'
 
   if (!apiKey)     throw new Error('[VastWanProvider] Missing VAST_API_KEY')
   if (!instanceId) throw new Error('[VastWanProvider] Missing VAST_INSTANCE_ID — set after renting instance')
   if (!sshHost)    throw new Error('[VastWanProvider] Missing VAST_SSH_HOST — found in instance details')
   if (!sshPort)    throw new Error('[VastWanProvider] Missing VAST_SSH_PORT — found in instance details')
 
-  return { apiKey, instanceId, sshHost, sshPort: parseInt(sshPort, 10), sshUser, workDir }
+  return { apiKey, instanceId, sshHost, sshPort: parseInt(sshPort, 10), sshUser }
 }
 
 async function vastGet(path: string, apiKey: string): Promise<unknown> {
@@ -155,7 +154,9 @@ export class VastWanProvider implements AIProvider {
   async generateCharacterReplacementVideo(
     input: CharacterReplacementInput
   ): Promise<CharacterReplacementOutput> {
-    const { instanceId, sshHost, sshPort, sshUser, workDir } = getCredentials()
+     void input
+
+    const { instanceId, sshHost, sshPort, sshUser } = getCredentials()
 
     // Verify instance is running
     const status = await vastGetInstanceStatus(instanceId)
@@ -170,23 +171,6 @@ export class VastWanProvider implements AIProvider {
 
     const jobId = `vast-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
 
-    const payload = JSON.stringify({
-      id: jobId,
-      input: {
-        user_video_url:       input.userVideoUrl,
-        character_image_url:  input.characterImageUrl,
-        quality:              input.quality,
-        mode:                 input.mode ?? 'replacement',
-        keep_original_audio:  input.keepOriginalAudio,
-      },
-    })
-
-    // Build SSH command — handler.py runs directly on instance (no Docker)
-    const remoteCmd = [
-      `cd ${workDir}`,
-      `LOCAL_TEST=true`,
-      `python3 worker/handler.py <<'PAYLOAD'\n${payload}\nPAYLOAD`,
-    ].join(' && ')
 
     console.log(`[VastWanProvider] SSH → ${sshUser}@${sshHost}:${sshPort}`)
     console.log(`[VastWanProvider] Job: ${jobId}`)
